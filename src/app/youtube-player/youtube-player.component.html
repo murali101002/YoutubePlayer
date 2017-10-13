@@ -1,0 +1,12 @@
+<youtube-player *ngFor='let video of videos'
+[videoId]="video.id.videoId"
+(ready)="savePlayer($event)"
+(change)="onStateChange($event)"
+></youtube-player>
+<div class="col-md-12">
+  <div class="btn-group" role="group">
+    <!-- <button type="button" class="btn btn-default" (click)="playVideo()">Play</button>
+    <button type="button" class="btn btn-default" (click)="pauseVideo()">Pause</button> -->
+    <!-- <button type="button" class='btn btn-primary' (click)='search()'>Search</button> -->
+  </div>
+</div>

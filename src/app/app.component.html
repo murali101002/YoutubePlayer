@@ -1,0 +1,52 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container-fluid">
+  <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <a class="navbar-brand">Navbar</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <div *ngIf='authService.user | async'>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" (input)='searchQuery=$event.target.value'>
+          <button class="btn btn-success my-2 my-sm-0" (click)='search()' type="submit">Search</button>
+          <button (click)='logout()' class="btn btn-warning">Logout</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>
+<div *ngIf='videos?.length>0; else novideos'>
+  <div class="playerList">
+    <div class="list-item" *ngFor='let video of videos'>
+      <span class="list-title" (click)='loadVideo(video.id.videoId)'>{{video.snippet.title}}</span>
+      <div class="list-img-desc">
+        <div class="div-list-item">
+          <img class="list-img" src={{video.snippet.thumbnails.default.url}} (click)='loadVideo(video.id.videoId)'
+          />
+        </div>
+        <p class="list-desc">{{video.snippet.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="player" style="position: relative;padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <youtube-player width='600' height='400' *ngIf='videoId' [videoId]='videoId' (ready)='savePlayer($event)'>
+  </youtube-player>
+</div>
+<ng-template #novideos>
+  <h3 class="no-videos">No results match your search.</h3>
+</ng-template>
+<div *ngIf='!(authService.user|async)'>
+  <router-outlet></router-outlet>
+</div>
+<div *ngIf='authService.errorMsg' class="error">
+  {{authService.errorMsg}}!!!
+</div>
