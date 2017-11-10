@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container-fluid">
-  <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+  <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary navbar-fixed-top">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -15,7 +15,15 @@
       </ul>
       <div *ngIf='authService.user | async'>
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" (input)='searchQuery=$event.target.value'>
+          <select class="form-control" id="sel1" [(ngModel)]='limit' name='limit' (change)='onChange($event.target.value)'>
+            <option class="dropdown-item">5</option>
+            <option class="dropdown-item">10</option>
+            <option class="dropdown-item">20</option>
+            <option class="dropdown-item">30</option>
+            <option class="dropdown-item">40</option>
+          </select>
+          <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" (input)='searchQuery=$event.target.value'> -->
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" [(ngModel)] = searchQuery name='searchQuery'>
           <button class="btn btn-success my-2 my-sm-0" (click)='search()' type="submit">Search</button>
           <button (click)='logout()' class="btn btn-warning">Logout</button>
         </form>
@@ -26,20 +34,27 @@
 <div *ngIf='videos?.length>0; else novideos'>
   <div class="playerList">
     <div class="list-item" *ngFor='let video of videos'>
-      <span class="list-title" (click)='loadVideo(video.id.videoId)'>{{video.snippet.title}}</span>
+      <span class="list-title" (click)='loadVideo(video)'>{{video.snippet.title}}</span>
       <div class="list-img-desc">
         <div class="div-list-item">
-          <img class="list-img" src={{video.snippet.thumbnails.default.url}} (click)='loadVideo(video.id.videoId)'
-          />
+          <div class="list-img">
+            <img src={{video.snippet.thumbnails.default.url}} (click)='loadVideo(video)' />
+          </div>
         </div>
         <p class="list-desc">{{video.snippet.description}}</p>
       </div>
     </div>
   </div>
 </div>
-<div id="player" style="position: relative;padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <youtube-player width='600' height='400' *ngIf='videoId' [videoId]='videoId' (ready)='savePlayer($event)'>
+
+<div *ngIf='authService.user | async' class="player">
+  <youtube-player width='500' height='300' *ngIf='videoId' [videoId]='videoId' (ready)='savePlayer($event)'>
   </youtube-player>
+  <div class="scrollmenu">
+    <!-- <div class="playlist" *ngFor='let video of playlist'> -->
+    <img src={{video.snippet.thumbnails.default.url}} *ngFor='let video of playlist' (click)='loadPlaylistVideo(video)' />
+    <!-- </div> -->
+  </div>
 </div>
 <ng-template #novideos>
   <h3 class="no-videos">No results match your search.</h3>

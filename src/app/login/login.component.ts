@@ -14,10 +14,13 @@ import {AuthService} from '../auth.service';
 export class LoginComponent implements OnInit {
 
   data: any = {};
-  errMsg: string;
-  login() {
+  errMsg='';
+  onSubmit() {
+    console.log('form');
     const{username, password} = this.data;
-    this.authService.login(username, password);
+    this.authService.login(username, password)
+                    .then(()=>this.errMsg = this.authService.errorMsg)
+                    .catch(error=>console.log('catch', error));
   }
   constructor(public authService: AuthService) {
    }

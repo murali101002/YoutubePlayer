@@ -18,12 +18,32 @@ export class ApiService {
     const url = `${this.baseUrl}${action}?`;
     const params = new HttpParams().set('q',searchQuery)
     .set('part','snippet')
+    .set('maxResults',limit)
     .set('key',this.myKey);
-    // params.del ete('maxResult');
     return this.http
                 .get(url, {params})
                 .map((res:Response)=>res)
-                .filter(data=>data['items'])
+                .catch(this.handleError);
+  }
+  getPlaylist(limit:string, playlistId:string){
+    const url = `${this.baseUrl}playlistItems?`;
+    const params = new HttpParams().set('playlistId',playlistId)
+                                    .set('maxResults',limit)
+                                    .set('part','snippet,contentDetails')
+                                    .set('key',this.myKey);
+    return this.http
+                .get(url, {params})
+                .map((res:Response)=>res)
+                .catch(this.handleError);
+  }
+  getPlaylistFromChannelId(channelId:string){
+    const url = `${this.baseUrl}channels?`;
+    const params = new HttpParams().set('id',channelId)
+                                    .set('part','snippet,contentDetails')
+                                    .set('key',this.myKey);
+    return this.http
+                .get(url, {params})
+                .map((res:Response)=>res)
                 .catch(this.handleError);
   }
   private handleError(err:HttpErrorResponse){

@@ -9,7 +9,7 @@ import {AuthService} from '../auth.service';
 export class SignupComponent implements OnInit {
   data: any = {};
   constructor(public authService: AuthService) { }
-  signup(){
+  onSubmit(){
     const{username, password} = this.data;
     this.authService.signup(username, password);
   }

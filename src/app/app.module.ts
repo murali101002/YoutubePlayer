@@ -13,6 +13,8 @@ import {AuthService} from './auth.service';
 import { SignupComponent } from './signup/signup.component';
 import {HttpClientModule} from '@angular/common/http';
 import { YoutubePlayerModule } from 'ng2-youtube-player';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {CookieService} from 'angular2-cookie';
 
 
 @NgModule({
@@ -20,11 +22,11 @@ import { YoutubePlayerModule } from 'ng2-youtube-player';
     AppComponent,
     LoginComponent,
     SignupComponent
-    // YoutubePlayerComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
+      {path: 'home', component: AppComponent},
       {path: 'login', component: LoginComponent},
       {path: 'signup', component: SignupComponent},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -33,9 +35,10 @@ import { YoutubePlayerModule } from 'ng2-youtube-player';
     FormsModule,
     AngularFireModule.initializeApp(appConfig),
     YoutubePlayerModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule.forRoot()
   ],
-  providers: [AuthService, AngularFireAuth],
+  providers: [AuthService, AngularFireAuth, CookieService],
   bootstrap: [AppComponent],
   schemas:[ CUSTOM_ELEMENTS_SCHEMA]
 })
