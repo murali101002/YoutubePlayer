@@ -1,7 +1,7 @@
 import * as firebase from 'firebase';
 
 export const appConfig = {
-    apiKey: 'AIzaSyDeWLLpWtvrimT2vakwXPSsyDaRWp9rV5c',
+    apiKey: <API_KEY>,
     authDomain: 'goal-coach-4fbb4.firebaseapp.com',
     databaseURL: 'https://goal-coach-4fbb4.firebaseio.com',
     projectId: 'goal-coach-4fbb4',
